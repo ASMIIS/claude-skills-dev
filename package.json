@@ -1,0 +1,13 @@
+{
+  "name": "claude-code-methodology",
+  "version": "1.0.0",
+  "description": "Installe le kit méthodologique Claude Code (CLAUDE.md, Skills, Commands, docs) dans le repository courant.",
+  "bin": {
+    "claude-code-methodology": "./bin/install.js"
+  },
+  "files": [
+    "bin",
+    "template"
+  ],
+  "license": "MIT"
+}

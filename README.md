@@ -93,7 +93,7 @@ Autres principes structurants :
 Depuis la racine de n'importe quel repository :
 
 ```bash
-npx github:ASMIIS/claude-code-methodology
+npx github:ASMIIS/claude-skills-dev
 ```
 
 Ça copie `CLAUDE.md`, `.claude/skills/`, `.claude/commands/`, `docs/` et `frontend/docs/` dans le projet — rien n'est installé de façon permanente (pas de `node_modules`, pas de dépendance ajoutée), et **aucun fichier déjà présent n'est écrasé**.
@@ -101,7 +101,7 @@ npx github:ASMIIS/claude-code-methodology
 Mode simulation (rien n'est écrit) :
 
 ```bash
-npx github:ASMIIS/claude-code-methodology --dry-run
+npx github:ASMIIS/claude-skills-dev --dry-run
 ```
 
 ## Initialiser le contexte du projet
@@ -130,7 +130,7 @@ Elle peut être relancée à tout moment pour mettre à jour le contexte, ou ave
 `.claude/skills/` et `.claude/commands/` sont génériques — vous pouvez les installer une seule fois dans votre dossier global Claude Code plutôt que projet par projet :
 
 ```bash
-npx github:ASMIIS/claude-code-methodology
+npx github:ASMIIS/claude-skills-dev
 cp -r .claude/skills/*   ~/.claude/skills/
 cp -r .claude/commands/* ~/.claude/commands/
 ```

@@ -1,6 +1,6 @@
 # claude-code-methodology
 
-Kit méthodologique pour [Claude Code](https://claude.com/claude-code) : un `CLAUDE.md`, 20 Skills et 15 Commands qui transforment Claude Code en agent de développement méthodique — il comprend une demande, analyse l'existant, planifie, implémente, teste, sécurise, documente et garde l'humain aux commandes des décisions qui lui appartiennent.
+Kit méthodologique pour [Claude Code](https://claude.com/claude-code) : un `CLAUDE.md`, 20 Skills et 16 Commands qui transforment Claude Code en agent de développement méthodique — il comprend une demande, analyse l'existant, planifie, implémente, teste, sécurise, documente et garde l'humain aux commandes des décisions qui lui appartiennent.
 
 ## Pourquoi ce kit — la logique de réflexion
 
@@ -75,7 +75,7 @@ Autres principes structurants :
 |---|---|
 | `security-testing` | Test de sécurité **actif** et autorisé (recon, scan borné, revue manuelle) contre une cible explicitement désignée, uniquement via `/pentest-feature` |
 
-## Les 15 Commands
+## Les 16 Commands
 
 | Commande | Rôle |
 |---|---|
@@ -94,6 +94,7 @@ Autres principes structurants :
 | `/context-audit` | Audit lecture seule de l'efficacité de contexte du kit lui-même |
 | `/production-ready` | Vérifie/prépare la mise en production réelle (`--plan`) |
 | `/pentest-feature` | Test de sécurité actif et autorisé contre une cible désignée — rapport seul, ne corrige rien |
+| `/update-kit` | Met à jour `.claude/skills/` et `.claude/commands/` vers la dernière version du kit (jamais `CLAUDE.md`/`docs/`) |
 
 ## Installation dans un projet
 
@@ -110,6 +111,22 @@ Mode simulation (rien n'est écrit) :
 ```bash
 npx github:ASMIIS/claude-skills-dev --dry-run
 ```
+
+## Mettre à jour le kit dans un projet déjà installé
+
+Quand une nouvelle version du kit sort, pour la récupérer dans un projet où il est déjà installé :
+
+```bash
+npx github:ASMIIS/claude-skills-dev --update
+```
+
+Ça met à jour uniquement `.claude/skills/` et `.claude/commands/` (fichiers génériques du kit,
+pas censés être édités dans le projet) vers la dernière version — **`CLAUDE.md`, `docs/` et
+`frontend/docs/` ne sont jamais touchés**, puisqu'ils sont spécifiques au projet et remplis via
+`/init-context`. Combinable avec `--dry-run` pour prévisualiser sans écrire.
+
+Depuis Claude Code, la commande `/update-kit` fait la même chose directement dans la conversation
+et résume ce qui a changé (jamais de commit/push automatique — voir CLAUDE.md §5).
 
 ## Initialiser le contexte du projet
 

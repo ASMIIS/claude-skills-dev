@@ -196,13 +196,15 @@ Cette checklist est indicative, pas un formulaire à remplir mécaniquement — 
 | `/context-audit` | Audit lecture seule de l'efficacité de contexte du kit lui-même (taille, duplications, chargement) |
 | `/production-ready` | Vérifie si le projet est prêt pour la production réelle, corrige ce qui est sûr |
 | `/pentest-feature` | Test de sécurité **actif**, autorisé et borné, contre une cible explicitement désignée — rapport seul, ne corrige rien |
+| `/update-kit` | Met à jour `.claude/skills/` et `.claude/commands/` vers la dernière version du kit (jamais `CLAUDE.md`/`docs/`) |
 
 Organisation logique de ces commandes : **Context** (`/init-context`, `/clarify-feature`) —
 **Build** (`/add-feature`, `/modify-feature`, `/fix-feature`) — **Audit** (`/audit-feature`,
 `/audit-project`, `/audit-compliance`, `/audit-logs`, `/context-audit`) — **Review** (`/review-ui`,
 `/review-responsive`, `/production-ready`) — **Security active** (`/pentest-feature`, à part :
 nécessite une cible et une autorisation explicites, contrairement aux audits lecture-seule
-ci-dessus qui portent sur le code du projet courant).
+ci-dessus qui portent sur le code du projet courant) — **Maintenance du kit** (`/update-kit`, à
+part : agit sur les fichiers du kit lui-même, pas sur le code du projet).
 
 `/add-feature`, `/modify-feature`, `/fix-feature` et `/production-ready` supportent un argument
 `--plan` : Claude produit l'analyse complète (clarification, impact, Skills nécessaires, fichiers
@@ -214,7 +216,10 @@ Ne pas créer de nouvelle commande d'audit spécialisée (`/audit-api`, `/audit-
 `/audit-performance`, ...) : ces responsabilités sont couvertes par `/audit-feature` et
 `/audit-project`, qui sélectionnent eux-mêmes les Skills pertinents — voir §9. `/pentest-feature`
 n'est pas un audit de ce type : c'est un test **actif** nécessitant une cible et une autorisation
-explicites (gate dédiée), ce qu'`/audit-feature`/`/audit-project` ne couvrent pas.
+explicites (gate dédiée), ce qu'`/audit-feature`/`/audit-project` ne couvrent pas. `/update-kit`
+n'est pas non plus un audit : c'est une opération de maintenance sur les fichiers génériques du
+kit (`.claude/skills/`, `.claude/commands/`), jamais sur `CLAUDE.md`/`docs/` qui restent
+spécifiques au projet — voir §5 : cette commande ne committe/ne push jamais automatiquement.
 
 ## 8. Skills disponibles
 

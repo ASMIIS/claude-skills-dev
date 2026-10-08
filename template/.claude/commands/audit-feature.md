@@ -29,7 +29,9 @@ audit**, sauf si l'utilisateur le demande explicitement dans sa requête.
    - Problèmes frontend/backend (incohérence de contrat)
 4. **Dérouler le Skill `security`** sur toute la feature : injection, XSS/CSRF/SSRF, IDOR,
    contrôle d'accès, auth, exposition de données, secrets, validation des entrées, fichiers,
-   URLs externes, endpoints publics.
+   URLs externes, endpoints publics. Si la feature touche auth, session, reset, OTP, API publique,
+   CORS ou en-têtes : dérouler `references/verification-checklist.md` du Skill `security`
+   (anti brute-force, vol de session, MITM, rate limiting) et inclure sa table de synthèse.
 
 Produis un rapport structuré, classé par sévérité, avec un statut de gate global :
 

@@ -16,6 +16,8 @@
 | Definition of Done (adaptée au projet) | `docs/development/definition-of-done.md` |
 | Convention TODO/FIXME | `docs/development/todo-conventions.md` |
 | Sécurité (modèle auth/autorisation/rôles) | `docs/security/README.md` |
+| Historique des tests de sécurité actifs (pentest) | `docs/security/pentest-log.md` |
+| Stratégie SEO / GEO (intentions, pages, KPI) | `docs/seo/README.md` |
 | Environnements | `docs/operations/environments.md` |
 | Déploiement / CI-CD / topologie production | `docs/operations/deployment.md`, `docs/PROJECT_CONTEXT.md` → Production Topology |
 | Observabilité (logs/métriques/alertes) | `docs/operations/observability.md` |

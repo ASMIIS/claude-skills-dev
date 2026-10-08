@@ -42,10 +42,23 @@ l'existant ne convient.
    - `references/responsive.md` — renvoie vers le Skill dédié `responsive-design` (source de vérité)
    - `references/forms.md` — règles spécifiques aux formulaires
    - `references/interaction.md` — états UI, animations
+   - `references/ui-rules.md` — règles UI mesurables (tokens, espacement, typo, contraste, états,
+     mouvement, micro-copie, thème sombre) — valeurs par défaut quand la DA est `UNKNOWN`
+   - `references/ux-principles.md` — grille de revue UX (heuristiques, lois, parcours, dark patterns)
 4. Implémenter en réutilisant la DA et les composants identifiés.
 5. Si la DA existante est incohérente ou incomplète sur le point concerné : le signaler et
    proposer une standardisation plutôt que d'en inventer une silencieusement (voir CLAUDE.md §4
    pour les changements nécessitant confirmation si la standardisation est large).
+
+## Règles non négociables (rappel court)
+
+- Tokens du design system, jamais de valeur de couleur/espacement/z-index en dur.
+- Tous les états interactifs couverts (focus-visible, disabled, loading, error, empty).
+- Contraste AA, couleur jamais seule porteuse de sens, cibles tactiles ≥ 44 px.
+- Un seul CTA primaire par zone ; libellés d'action explicites ; aucun dark pattern.
+- Mobile first (Skill `responsive-design`) ; `prefers-reduced-motion` et `prefers-color-scheme` respectés.
+- Page publique indexable : titres sémantiques, contenu dans le HTML, CLS maîtrisé (Skill `seo`).
+- Formulaire d'auth/sensible : conforme à Skill `security` (messages génériques, `autocomplete`).
 
 ## Règle absolue
 

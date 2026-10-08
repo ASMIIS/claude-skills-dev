@@ -16,6 +16,10 @@
 
 <!-- Liste des rôles existants et ce qu'ils permettent. -->
 
+## Protection anti-abus et sessions
+
+<!-- Valeurs réellement appliquées (jamais de secret) : limites de tentatives par route (compte / IP), politique de verrouillage ou délai progressif, algorithme de hash, MFA, durée de session (idle / absolue), flags des cookies, store du rate limiting, proxies de confiance, en-têtes de sécurité (CSP/HSTS), décision CORS. Voir Skill security → references/. UNKNOWN si non vérifié. -->
+
 ## Gestion des secrets
 
 <!-- Où sont stockés les secrets (gestionnaire de secrets, variables d'environnement...), jamais leur valeur. -->

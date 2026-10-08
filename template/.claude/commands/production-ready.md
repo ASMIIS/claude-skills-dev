@@ -38,7 +38,9 @@ incomplète sur des points critiques, poser les questions nécessaires (qualifie
 9. **Vérifier les backups** — existence, fréquence, restauration testée ou non.
 10. **Vérifier le rollback** — mécanisme réellement disponible, compatibilité avec les migrations
     de base de données (`references/deployment-rollback.md`).
-11. **Vérifier la sécurité** — Skill `security` (HTTPS, exposition réseau, secrets, CORS).
+11. **Vérifier la sécurité** — Skill `security` (HTTPS/HSTS, exposition réseau, secrets, CORS) et
+    section D de `references/verification-checklist.md` : en-têtes réels derrière le CDN/proxy, IP
+    cliente fiable, store de rate limiting partagé, flags des cookies de session dans la réponse réelle.
 12. **Vérifier les tests** — Skill `testing`, état de la suite avant tout déploiement.
 13. **Corriger ce qui peut l'être sans risque** — uniquement les changements réversibles et non
     destructifs (ex: compléter `.env.example`, corriger une variable mal documentée). Toute

@@ -1,72 +1,84 @@
 ---
 name: seo
-description: Vérifier et améliorer le référencement naturel des pages destinées à être indexées par les moteurs de recherche — technical SEO, metadata, structured data, rendu SSR, performance, contenu. Utiliser ce Skill uniquement pour les pages publiques destinées à l'indexation, jamais pour un dashboard, un espace authentifié ou une application privée qui n'a pas vocation à être indexée.
+description: Concevoir, vérifier et optimiser le référencement (SEO classique + GEO/visibilité dans les moteurs IA) des pages destinées à l'indexation, à partir d'une stratégie explicite — intention de recherche, architecture de l'information, contenu, technical SEO, metadata, structured data, rendu, Core Web Vitals, mesure. Utiliser ce Skill uniquement pour les pages publiques destinées à l'indexation (vitrine, blog, produit, landing), jamais pour un dashboard, un espace authentifié ou une application privée.
 ---
 
-# SEO
+# SEO + GEO
 
 ## Périmètre — ne pas appliquer aveuglément
 
-Ce Skill s'applique aux pages/sites dont certaines parties sont destinées à être indexées par les
-moteurs de recherche (site vitrine, blog, pages produit publiques, landing pages). Il ne
-s'applique **pas** à une application privée, un dashboard, ou un espace authentifié qui n'a pas
-vocation à être indexé — vérifier le contexte réel avant de dérouler la checklist SEO sur une
-page qui n'en a pas besoin.
+S'applique aux pages publiques destinées à être trouvées (site vitrine, blog, pages produit,
+landing pages, documentation publique). **Ne s'applique pas** à une app privée, un dashboard ou un
+espace authentifié : vérifier le contexte réel avant de dérouler quoi que ce soit. Sur ces zones,
+le seul travail SEO est de s'assurer qu'elles sont exclues (`noindex`, `robots`, auth).
 
-## Technical SEO
+## Principe — stratégie d'abord, checklist ensuite
 
-Vérifier, lorsque pertinent : `robots.txt`, `sitemap.xml`, URLs canoniques, statuts HTTP corrects,
-redirections (301 pour permanent, pas 302 par erreur), gestion des 404, HTTPS, structure d'URL
-cohérente et lisible, absence de contenu dupliqué non maîtrisé, indexabilité (meta robots),
-crawlabilité (liens suivables, pas uniquement du JS non rendu pour la navigation principale).
+Une checklist technique parfaite sur des pages qui ne répondent à aucune intention de recherche
+ne produit aucun trafic. Ordre de travail :
 
-## Metadata
+```
+Stratégie (cible, intentions, pages)  →  Contenu & architecture  →  Technique  →  Mesure  →  Itération
+```
 
-Vérifier : title (unique et pertinent par page), meta description, canonical, Open Graph,
-metadata Twitter/X lorsque pertinent, langue déclarée, viewport. Les metadata doivent être
-pertinentes et générées dynamiquement lorsqu'elles dépendent du contenu réel de la page — pas une
-valeur statique identique sur toutes les pages.
+1. Lire `docs/seo/README.md` (stratégie du projet : audience, mots-clés/intentions, pages
+   prioritaires, KPI). S'il n'existe pas ou contient des `UNKNOWN` critiques (cible, marché,
+   langue, offre) : poser la question (CLAUDE.md §4/§16) — jamais inventer une stratégie.
+2. Rattacher chaque page créée/modifiée à **une intention** et **un rôle** dans l'architecture
+   (pilier, cluster, conversion, support). Une page sans intention ni rôle n'est pas indexable
+   utilement : la signaler.
+3. Dérouler seulement les sections utiles à la tâche (voir table), puis mesurer.
 
-## Structured data
+## Quelle référence charger
 
-Lorsque pertinent pour le type de contenu (produit, article, organisation, FAQ...), vérifier
-l'utilisation correcte de données structurées adaptées. **Ne jamais ajouter de données
-structurées mensongères** (ex: notes/avis fictifs) — c'est à la fois une pratique trompeuse et un
-risque de pénalité.
+| Besoin | Référence |
+|---|---|
+| Définir/revoir la stratégie, cibles, clusters, priorisation, KPI | `references/strategy.md` |
+| Rédiger/optimiser une page (intention, structure, E-E-A-T, maillage) | `references/content-and-intent.md` |
+| Visibilité dans ChatGPT/Perplexity/Gemini/AI Overviews (GEO) | `references/geo.md` |
+| robots, sitemap, canonical, redirections, hreflang, pagination, rendu JS | `references/technical-seo.md` |
+| title, description, Open Graph, langue | `references/metadata.md` |
+| JSON-LD / schema.org | `references/structured-data.md` |
+| LCP / INP / CLS, poids des pages | `references/performance.md` |
+| Audit priorisé P0/P1/P2 et rapport | `references/audit-checklist.md` |
+| Accessibilité ↔ SEO | `references/accessibility.md` |
 
-## SSR / Rendering
+Ne charger que la ou les références du besoin réel (CLAUDE.md §10).
 
-Pour les frameworks concernés, vérifier que les pages devant être indexées sont correctement
-rendues pour les moteurs de recherche. Identifier les problèmes potentiels liés au rendu
-côté client, à l'hydratation, au contenu chargé dynamiquement après le premier rendu, aux états de
-chargement qui pourraient être indexés à la place du contenu réel.
+## Règles non négociables
 
-## Performance
-
-Le SEO doit être considéré conjointement avec la performance, l'accessibilité, le responsive et
-l'UX (Skills `ui-ux`, `responsive-design`) — pas isolément. Vérifier notamment : Core Web Vitals,
-poids des pages, optimisation des images, chargement des polices, volume de JavaScript, temps de
-chargement perçu.
-
-## Contenu
-
-Vérifier : hiérarchie de titres cohérente (un seul `h1` pertinent par page, `h2`/`h3` structurés),
-contenu réellement unique par page, présence de liens internes pertinents, texte accessible aux
-moteurs (pas uniquement dans une image ou une vidéo sans alternative), URLs cohérentes avec le
-contenu. **Ne jamais générer artificiellement du contenu uniquement pour manipuler les moteurs de
-recherche** (keyword stuffing, contenu dupliqué généré en masse).
-
-## Références détaillées
-
-- `references/technical-seo.md` — robots.txt, sitemap, redirections, indexabilité
-- `references/metadata.md` — title, description, Open Graph
-- `references/structured-data.md` — données structurées par type de contenu
-- `references/accessibility.md` — collaboration avec `ui-ux`/`responsive-design`
-- `references/performance.md` — Core Web Vitals et poids des pages
+- **Une page = une intention principale**, un `h1` pertinent, un title et une description uniques.
+- **Contenu visible = contenu balisé** : jamais de structured data, d'avis, de notes, de prix ou de
+  FAQ qui ne correspondent pas à ce que voit l'utilisateur.
+- **Aucune manipulation** : pas de keyword stuffing, contenu dupliqué/généré en masse, texte caché,
+  cloaking, pages satellites, achat de liens, faux avis. Risque de pénalité manuelle ou algorithmique.
+- **Mobile = version de référence** (indexation mobile-first) : le contenu, les liens et les
+  données structurées du mobile doivent être équivalents à ceux du desktop.
+- **Le contenu critique est dans le HTML initial** (SSR/SSG/pré-rendu), pas uniquement injecté
+  après hydratation ; la navigation principale utilise de vrais `<a href>`.
+- **HTTPS partout**, une seule version canonique du domaine (www/non-www, http/https, slash final).
+- **Ne pas bloquer par erreur** : un `Disallow`/`noindex` hérité d'un environnement de staging est
+  la première cause de disparition de l'index — vérifier à chaque release.
+- **Le SEO ne dégrade jamais l'UX ni la sécurité** : pas de pop-up intrusif plein écran au
+  chargement, pas d'exposition de pages privées/de données sensibles via sitemap, robots ou
+  structured data.
+- **Pas de promesse de position.** Le SEO est probabiliste et lent : annoncer des hypothèses et des
+  KPI, jamais un classement garanti.
 
 ## Méthode
 
-1. Vérifier que la page/le périmètre concerné est réellement destiné à l'indexation.
-2. Dérouler les sections pertinentes de la checklist ci-dessus selon la nature de la tâche.
-3. Croiser avec `ui-ux` et `responsive-design` pour l'accessibilité et la performance.
-4. Ne jamais sacrifier l'expérience utilisateur réelle à une optimisation SEO artificielle.
+1. Confirmer que le périmètre est indexable et lire la stratégie (`docs/seo/README.md`).
+2. Qualifier la tâche : **création** (intention → plan de page → implémentation), **audit**
+   (`audit-checklist.md`, constats priorisés), **optimisation** (partir des données Search Console
+   si disponibles, sinon l'écrire en `UNKNOWN`).
+3. Implémenter/vérifier technique + metadata + structured data + contenu + GEO selon la table.
+4. Croiser avec `ui-ux`, `accessibility`, `responsive-design`, `performance`.
+5. Définir comment mesurer (Search Console, logs de crawl, analytics, tests de citation IA) et
+   consigner stratégie/constats dans `docs/seo/README.md` (voir Skill `documentation`).
+
+## Sortie attendue
+
+Pour un audit : constats classés P0 (bloque l'indexation/le classement) / P1 (fort impact) / P2
+(optimisation), chacun avec page concernée, preuve observée, correction, effet attendu. Pour une
+implémentation : checklist des points vérifiés + ce qui reste `UNKNOWN` (données de trafic,
+mots-clés réels) plutôt qu'inventé.

@@ -112,7 +112,10 @@ situations suivantes :
 - une suppression de ressource importante ou une modification irréversible est en jeu ;
 - suppression importante, changement d'architecture majeur, breaking change d'API, suppression de
   feature, changement de permissions, modification d'un mécanisme de sécurité, dépendance à
-  impact important.
+  impact important ;
+- un test de sécurité actif (`/pentest-feature`) est demandé sans que la propriété/autorisation de
+  la cible, l'environnement exact ou le périmètre soient établis avec certitude (voir Skill
+  `security-testing` → `references/scope-and-authorization.md`).
 
 **Une information `UNKNOWN` ne doit jamais être transformée silencieusement en `ASSUMED`** pour
 contourner une Stop Condition. Dans ces situations, informer clairement l'utilisateur du blocage,
@@ -192,11 +195,14 @@ Cette checklist est indicative, pas un formulaire à remplir mécaniquement — 
 | `/audit-logs` | Audit du système de logs/observabilité — configuration, niveaux, secrets, correlation IDs |
 | `/context-audit` | Audit lecture seule de l'efficacité de contexte du kit lui-même (taille, duplications, chargement) |
 | `/production-ready` | Vérifie si le projet est prêt pour la production réelle, corrige ce qui est sûr |
+| `/pentest-feature` | Test de sécurité **actif**, autorisé et borné, contre une cible explicitement désignée — rapport seul, ne corrige rien |
 
 Organisation logique de ces commandes : **Context** (`/init-context`, `/clarify-feature`) —
 **Build** (`/add-feature`, `/modify-feature`, `/fix-feature`) — **Audit** (`/audit-feature`,
 `/audit-project`, `/audit-compliance`, `/audit-logs`, `/context-audit`) — **Review** (`/review-ui`,
-`/review-responsive`, `/production-ready`).
+`/review-responsive`, `/production-ready`) — **Security active** (`/pentest-feature`, à part :
+nécessite une cible et une autorisation explicites, contrairement aux audits lecture-seule
+ci-dessus qui portent sur le code du projet courant).
 
 `/add-feature`, `/modify-feature`, `/fix-feature` et `/production-ready` supportent un argument
 `--plan` : Claude produit l'analyse complète (clarification, impact, Skills nécessaires, fichiers
@@ -206,11 +212,13 @@ concernés, risques, tests prévus, documentation impactée, rollback strategy s
 
 Ne pas créer de nouvelle commande d'audit spécialisée (`/audit-api`, `/audit-database`,
 `/audit-performance`, ...) : ces responsabilités sont couvertes par `/audit-feature` et
-`/audit-project`, qui sélectionnent eux-mêmes les Skills pertinents — voir §9.
+`/audit-project`, qui sélectionnent eux-mêmes les Skills pertinents — voir §9. `/pentest-feature`
+n'est pas un audit de ce type : c'est un test **actif** nécessitant une cible et une autorisation
+explicites (gate dédiée), ce qu'`/audit-feature`/`/audit-project` ne couvrent pas.
 
 ## 8. Skills disponibles
 
-Les 19 Skills sont des unités indépendantes dans `.claude/skills/`, organisées ici en catégories
+Les 20 Skills sont des unités indépendantes dans `.claude/skills/`, organisées ici en catégories
 logiques (classification, pas une réorganisation physique des dossiers) :
 
 **Core** — s'appliquent à presque toute tâche :
@@ -229,6 +237,7 @@ logiques (classification, pas une réorganisation physique des dossiers) :
 | Skill | Quand l'utiliser |
 |---|---|
 | `security` | Sur toute modification touchant données, auth, entrées utilisateur, fichiers, réseau |
+| `security-testing` | Uniquement via `/pentest-feature` — test actif et autorisé contre une cible explicitement désignée, jamais implicite |
 | `api-contract` | Sur toute modification d'une API, d'un endpoint, d'un webhook, d'un événement ou d'un contrat frontend/backend |
 | `database` | Sur toute modification de schéma, migration, requête, index, modèle, relation, contrainte ou transaction |
 | `dependencies` | Avant d'ajouter, remplacer ou mettre à jour une dépendance |
@@ -272,13 +281,15 @@ commande, ou une règle d'orchestration dans ce fichier.
 
 ## 9. Routing — quels Skills activer
 
-**Ne jamais dérouler les 19 Skills systématiquement.** `feature-development` (et les commandes
+**Ne jamais dérouler les 20 Skills systématiquement.** `feature-development` (et les commandes
 d'audit) sélectionnent uniquement les Skills pertinents pour la tâche réelle, à partir de cette
 matrice indicative — à adapter au contexte réel, pas appliquée mécaniquement :
 
 | Nature de la tâche | Skills activés |
 |---|---|
 | Frontend UI | `ui-ux` → `accessibility` → `responsive-design` si pertinent → `seo` si page indexable |
+| Page publique / stratégie SEO-GEO | `seo` (stratégie → contenu → technique → mesure) → `ui-ux` → `responsive-design` → `performance` |
+| Auth / session / login / reset / CORS / en-têtes | `security` (références anti-abus, sessions, transport) → `testing` → `production-logging` |
 | Formulaire | `ui-ux` → `accessibility` → `testing` |
 | Navigation | `ui-ux` → `accessibility` → `responsive-design` → `testing` |
 | API / endpoint | `api-contract` → `security` → `testing` |
@@ -290,6 +301,7 @@ matrice indicative — à adapter au contexte réel, pas appliquée mécaniqueme
 | Déploiement / infra / config prod | `production-readiness` → `production-logging` → `security` |
 | Bug / comportement inexpliqué | `incident-debugging` → `testing` → `code-review` |
 | Données personnelles / cookies / IA | `legal-compliance` → `security` |
+| Test de sécurité actif demandé (`/pentest-feature`) | `security-testing` (gate d'autorisation d'abord) → `security` pour le détail des classes testées |
 
 Exemple : une modification CSS active `ui-ux`, `accessibility`, `responsive-design` si pertinent,
 `testing`, `code-review` — jamais `database`, `api-contract`, `legal-compliance`, `dependencies`
@@ -448,6 +460,16 @@ Ne pas réinventer une convention : chercher un exemple existant dans le code av
 - Ne jamais committer de secret, clé, token ou mot de passe.
 - Toute modification touchant auth, permissions, accès aux données ou upload de fichiers doit
   utiliser le Skill `security` avant d'être considérée terminée.
+- Tout endpoint qui vérifie un secret (login, reset, OTP, API key) est limité en tentatives
+  (par compte **et** par IP), répond sans révéler l'existence du compte et ne crée pas de
+  verrouillage permanent exploitable. Ne jamais retirer ni affaiblir une telle protection.
+- Sessions : cookie `HttpOnly` + `Secure` + `SameSite`, identifiant régénéré à l'authentification,
+  invalidation côté serveur (logout, reset, changement de mot de passe), expiration idle + absolue.
+- Transport : HTTPS/HSTS partout, jamais de vérification TLS désactivée, CORS en liste blanche,
+  protection CSRF sur les requêtes modifiant l'état.
+- Ces protections sont **re-vérifiées à chaque modification** touchant auth/session/réseau et à
+  chaque audit (Skill `security` → `references/verification-checklist.md`), avec preuve (code lu,
+  test, réponse réelle) — jamais sur déclaration.
 - En cas de doute sérieux sur une implication de sécurité : **arrêter et signaler** (§4 Stop
   Conditions), ne pas deviner.
 - Une amélioration de documentation, d'architecture ou de méthodologie ne doit jamais affaiblir la
@@ -524,6 +546,10 @@ hypothèse `ASSUMED` explicitement signalée comme telle est acceptable pour ava
 - `docs/development/todo-conventions.md` — convention des annotations `TODO`/`FIXME`/`XXX`/`HACK`/`NOTE`
   (non obligatoires, à utiliser seulement quand pertinent — jamais comme mesure de sécurité)
 - `docs/security/README.md` — modèle d'authentification/autorisation, rôles, conformité (jamais de secret)
+- `docs/security/pentest-log.md` — historique des tests de sécurité actifs (`/pentest-feature`),
+  constats et suivi de remédiation (jamais de secret réel, même partiel)
+- `docs/seo/README.md` — stratégie SEO/GEO du projet (intentions, pages, KPI, décisions crawlers IA) ;
+  source de vérité pour le Skill `seo`, seulement si le projet a des pages publiques à indexer
 - `docs/operations/environments.md`, `deployment.md`, `observability.md` — environnements, CI/CD,
   monitoring ; `deployment.md` est aussi la sortie principale du Skill `production-readiness`
 - `frontend/docs/api/README.md` (ou équivalent) — contrat des endpoints consommés par le frontend, si applicable

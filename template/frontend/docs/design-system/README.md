@@ -109,6 +109,18 @@
 
 <!-- Convention d'affichage des erreurs à l'utilisateur. -->
 
+## Dark mode / theming
+
+<!-- Thèmes supportés, tokens par thème, respect de prefers-color-scheme, persistance du choix. UNKNOWN si absent. Valeurs par défaut : Skill ui-ux → references/ui-rules.md §4. -->
+
+## Microcopy et ton
+
+<!-- Ton éditorial, vocabulaire, format des dates/nombres, conventions de libellés d'action et de messages d'erreur. -->
+
+## Interaction targets
+
+<!-- Taille minimale des cibles tactiles, focus visible, états hover/focus/active/disabled. Défauts : Skill responsive-design → references/css-rules.md §5. -->
+
 ## Accessibility
 
 <!-- Pratiques déjà en place (aria, focus, contraste) — voir aussi references/accessibility.md du Skill ui-ux. -->

@@ -71,6 +71,18 @@ Consulter selon la nature de la tâche :
 - `references/touch-interactions.md` — zones tactiles, alternatives au hover
 - `references/responsive-typography.md` — lisibilité du texte à toutes les tailles
 - `references/responsive-components.md` — images, tables, formulaires, modales responsive
+- `references/css-rules.md` — règles CSS/HTML d'implémentation : viewport, breakpoints par défaut,
+  grilles fluides, `clamp()`, `dvh`, container queries, hover/pointer, médias, matrice de contrôle
+
+## Règles non négociables (rappel court)
+
+- Mobile first : styles de base = mobile, extension par `min-width`.
+- Aucun scroll horizontal à 320 px ; `overflow-x: hidden` n'est pas une correction.
+- Pas de largeur/hauteur fixe sur du contenu ; `dvh` plutôt que `vh` ; texte en `rem`/`clamp()`.
+- Cibles tactiles ≥ 44 px, `hover` jamais indispensable, inputs ≥ 16 px.
+- Images avec dimensions déclarées, `srcset`, lazy-loading hors écran initial.
+- Contenu mobile = contenu desktop (indexation mobile-first, voir Skill `seo`).
+- Vérification sur la matrice 320 → ≥ 1440 px avec captures réelles.
 
 ## Accessibilité mobile
 

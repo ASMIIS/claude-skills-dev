@@ -29,6 +29,23 @@ Nouvelle dépendance
 → dependencies, security
 → testing
 
+Auth / session / rate limiting
+→ docs/security/README.md
+→ security (authentication-and-brute-force, sessions-and-tokens, transport-and-headers,
+  rate-limiting-and-abuse, verification-checklist)
+→ testing, production-logging
+
+Page publique à référencer (SEO/GEO)
+→ docs/seo/README.md
+→ seo (strategy, content-and-intent, geo, technical-seo selon besoin)
+→ ui-ux, responsive-design, performance
+
+Test de sécurité actif (/pentest-feature)
+→ security-testing (gate d'autorisation obligatoire d'abord)
+→ docs/security/README.md, docs/security/pentest-log.md
+→ security pour le détail des classes testées
+→ jamais sans cible/périmètre/autorisation explicites (Stop Condition sinon)
+
 Incident de sécurité
 → security + référence spécifique au problème détecté (pas toutes les références security)
 → incident-debugging si la cause n'est pas évidente

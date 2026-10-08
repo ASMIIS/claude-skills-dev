@@ -36,7 +36,8 @@ Exécute ce workflow complet, dans l'ordre, sans sauter d'étape :
 9. **Vérifier les régressions** — dérouler la checklist de non-régression pertinente
    (CLAUDE.md §18) selon la nature du changement.
 10. **Auditer la sécurité** — Skill `security` si la feature touche auth, permissions, entrées
-    utilisateur, fichiers, réseau ou données sensibles. Si la feature touche des données
+    utilisateur, fichiers, réseau ou données sensibles (login/reset/OTP/session/API publique :
+    limitation des tentatives, cookies, TLS, CORS/CSRF — `references/verification-checklist.md`). Si la feature touche des données
     personnelles, des cookies/traceurs, de la prospection commerciale ou de l'IA, appliquer aussi
     le Skill `legal-compliance` (idéalement dès la planification, via `/review-compliance-feature`).
 11. **Relire** — Skill `code-review` sur le diff produit ; corriger les CRITICAL/HIGH avant de

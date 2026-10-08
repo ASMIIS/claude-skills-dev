@@ -1,20 +1,27 @@
 # Performance et Core Web Vitals
 
-Pour les pages destinées à l'indexation, vérifier notamment :
+Seuils « bon » à atteindre au **75e percentile des données terrain** (CrUX / Search Console), mobile
+d'abord ; les mesures labo (Lighthouse) servent à diagnostiquer, pas à valider.
 
-- **LCP (Largest Contentful Paint)** — l'élément principal visible se charge rapidement ; images
-  hero optimisées et chargées en priorité, pas de blocage par des ressources non critiques
-- **CLS (Cumulative Layout Shift)** — pas de décalage de mise en page pendant le chargement
-  (dimensions réservées pour images/publicités/embeds, polices avec fallback cohérent)
-- **INP / interactivité** — la page reste réactive rapidement, pas de blocage prolongé du thread
-  principal par du JavaScript lourd au chargement
+| Métrique | Seuil bon | Leviers principaux |
+|---|---|---|
+| **LCP** | ≤ 2,5 s | image/titre héros dans le HTML initial, `fetchpriority="high"` + preload sur l'image LCP, jamais `loading="lazy"` dessus, TTFB bas (CDN, cache, SSR/SSG), CSS critique, pas de ressource bloquante |
+| **INP** | ≤ 200 ms | découper les tâches JS longues, différer le JS non critique, limiter l'hydratation, éviter les handlers lourds, `content-visibility`, délocaliser les scripts tiers |
+| **CLS** | ≤ 0,1 | `width`/`height` ou `aspect-ratio` sur images/vidéos/embeds, réserver l'espace des bannières/publicités/cookies, `font-display` + fallback métrique-compatible, pas d'insertion de contenu au-dessus du contenu existant |
+
+(L'ancien FID est remplacé par INP.) Compléments : TTFB ≤ ~800 ms, FCP.
 
 ## Points concrets
 
-Poids des pages, optimisation des images (format, dimensionnement, lazy loading pour le contenu
-hors écran), stratégie de chargement des polices (éviter le flash de texte invisible/mal stylé
-sans nécessité), volume de JavaScript chargé pour le rendu initial, scripts tiers (analytics,
-publicité) chargés de façon à ne pas bloquer le rendu principal.
+- Images : AVIF/WebP, `srcset`/`sizes`, dimensions déclarées, lazy-loading hors écran initial.
+- Polices : sous-ensemble, `woff2`, auto-hébergées si possible, `preload` des 1-2 critiques,
+  `font-display: swap|optional`.
+- JS : budget par page, code splitting, pas de bundle global pour une page statique ; scripts
+  tiers (analytics, chat, pub, consentement) chargés en `async`/`defer`, après interaction si possible.
+- Cache : `Cache-Control` immutable + noms fichiers hachés pour les assets ; compression Brotli/gzip ;
+  HTTP/2 ou 3.
+- Bannière cookies : ne doit ni décaler la mise en page ni bloquer le LCP (voir `legal-compliance`).
+- Mesurer avant/après chaque optimisation (Skill `performance` → `references/measurement.md`),
+  ne jamais optimiser « à l'intuition ».
 
-Voir aussi Skill `responsive-design` → performance mobile pour les problématiques spécifiques aux
-appareils moins puissants.
+Voir Skill `responsive-design` → performance mobile.

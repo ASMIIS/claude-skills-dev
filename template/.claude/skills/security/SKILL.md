@@ -30,6 +30,8 @@ Pour toute modification touchant entrée utilisateur, requête, fichier, auth ou
 | Entrées | Improper input validation, Mass assignment, Insecure deserialization |
 | Fichiers | Unsafe file upload (type, taille, contenu, chemin de destination) |
 | Autres | Race conditions, Weak cryptography |
+| Abus | Brute force, credential stuffing, énumération de comptes, absence de rate limiting, DoS applicatif |
+| Session / transport | Session fixation/hijacking, MITM (TLS désactivé/absent), cookies non sécurisés, CORS permissif, CSRF, clickjacking, open redirect |
 
 ## Vérifications systématiques
 
@@ -53,6 +55,26 @@ Pour toute modification touchant entrée utilisateur, requête, fichier, auth ou
   être validée (whitelist de domaines/schémas, pas d'accès aux plages IP internes).
 - **Endpoints publics** — vérifier qu'aucun endpoint destiné à être interne n'est exposé sans
   protection par erreur.
+
+## Anti-abus, sessions et transport — contrôle permanent
+
+Toute modification touchant login, inscription, reset, OTP/MFA, session, cookie, token, API
+publique, CORS, en-têtes, TLS/proxy ou envoi d'e-mail/SMS déclenche **obligatoirement** les
+références ci-dessous. Ces protections doivent rester vraies après chaque changement : ne jamais
+les affaiblir, les contourner « temporairement » ou les désactiver pour un test.
+
+| Menace | Défense minimale à constater (preuve) | Référence |
+|---|---|---|
+| Brute force, credential stuffing, spraying, énumération de comptes | limitation par compte + IP, délai progressif/verrou temporaire, message générique, hash Argon2id/bcrypt, MFA, OTP à essais bornés | `references/authentication-and-brute-force.md` |
+| Vol / fixation de session, XSS→session, jeton volé | cookie `HttpOnly; Secure; SameSite`, ID régénéré au login, invalidation serveur, expiration, refresh tokens en rotation | `references/sessions-and-tokens.md` |
+| Homme du milieu, downgrade, CSRF, CORS, clickjacking | HTTPS + HSTS, TLS vérifié partout, CSP/en-têtes, CORS en liste blanche, anti-CSRF | `references/transport-and-headers.md` |
+| Rafales de requêtes, abus de coût, DoS applicatif | rate limiting multi-clés (edge + app), `429`, IP cliente fiable, tailles/timeouts bornés | `references/rate-limiting-and-abuse.md` |
+| Régression silencieuse de ces protections | recherche statique + tests + inspection des réponses réelles | `references/verification-checklist.md` |
+
+Un endpoint qui vérifie un secret (mot de passe, code, jeton) **sans limitation de tentatives** est
+un défaut de sévérité HIGH au minimum (voir échelle dans la checklist de vérification). Ne pas
+déclarer la gate 6 `PASS` sans avoir produit la table de synthèse de `verification-checklist.md`
+pour les points d'entrée touchés.
 
 ## Méthode
 

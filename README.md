@@ -1,6 +1,6 @@
 # claude-code-methodology
 
-Kit méthodologique pour [Claude Code](https://claude.com/claude-code) : un `CLAUDE.md`, 19 Skills et 14 Commands qui transforment Claude Code en agent de développement méthodique — il comprend une demande, analyse l'existant, planifie, implémente, teste, sécurise, documente et garde l'humain aux commandes des décisions qui lui appartiennent.
+Kit méthodologique pour [Claude Code](https://claude.com/claude-code) : un `CLAUDE.md`, 20 Skills et 15 Commands qui transforment Claude Code en agent de développement méthodique — il comprend une demande, analyse l'existant, planifie, implémente, teste, sécurise, documente et garde l'humain aux commandes des décisions qui lui appartiennent.
 
 ## Pourquoi ce kit — la logique de réflexion
 
@@ -16,14 +16,14 @@ Chaque gate renvoie `PASS`, `WARNING`, ou `BLOCKED`. Un `BLOCKED` déclenche une
 
 Autres principes structurants :
 
-- **Routing intelligent** — une tâche n'active jamais les 19 Skills par défaut. Une modif CSS déclenche `ui-ux`/`accessibility`/`responsive-design`/`testing`, jamais `database` ni `legal-compliance`.
+- **Routing intelligent** — une tâche n'active jamais les 20 Skills par défaut. Une modif CSS déclenche `ui-ux`/`accessibility`/`responsive-design`/`testing`, jamais `database` ni `legal-compliance`. `security-testing` est à part : jamais activé implicitement, seulement via `/pentest-feature` avec une cible et une autorisation explicites.
 - **Context Engineering** — Claude charge le minimum de contexte suffisant (pas le minimum absolu) : les `SKILL.md` restent courts et orientés décision, le détail vit dans `references/` chargées seulement quand le sujet précis est concerné.
 - **Git Safety** — Claude analyse `git status`/`diff`/`log` librement, mais n'exécute **jamais** `commit`, `push`, `pull`, `merge`, `rebase`, `reset`, `checkout`, etc. L'humain garde la main sur Git.
 - **Source de vérité unique** — en cas de doute : code réel > configuration > contrats exposés > doc spécialisée > `PROJECT_CONTEXT.md` > `CLAUDE.md`.
 - **KNOWN / INFERRED / ASSUMED / UNKNOWN** — toute information incertaine est qualifiée ; un `UNKNOWN` critique n'est jamais transformé silencieusement en hypothèse.
 - **Enterprise-grade, pas Enterprise-bloat** — les bonnes pratiques s'appliquent au niveau réellement nécessaire pour le projet, jamais par réflexe "pro".
 
-## Les 19 Skills
+## Les 20 Skills
 
 **Core** — s'appliquent à presque toute tâche :
 
@@ -40,7 +40,7 @@ Autres principes structurants :
 
 | Skill | Rôle |
 |---|---|
-| `security` | Checklist de vulnérabilités (injection, XSS, IDOR, secrets...) |
+| `security` | Checklist de vulnérabilités (injection, XSS, IDOR, secrets...) + contrôle permanent anti brute-force, vol de session, MITM, rate limiting |
 | `api-contract` | Traite une API comme un contrat : consommateurs, versionnage, compatibilité |
 | `database` | Migrations, performance, transactions, intégrité, rollback |
 | `dependencies` | Ajout/mise à jour de dépendances, sécurité supply chain, licences |
@@ -51,10 +51,10 @@ Autres principes structurants :
 
 | Skill | Rôle |
 |---|---|
-| `ui-ux` | Qualité UX : cohérence, Direction Artistique, composants existants |
+| `ui-ux` | Qualité UX/UI : règles UI mesurables, principes UX, cohérence, Direction Artistique, composants existants |
 | `accessibility` | Accessibilité technique : WCAG, ARIA, clavier, focus, lecteurs d'écran |
-| `responsive-design` | Mobile first : layout, tactile, typographie, composants responsive |
-| `seo` | Uniquement pour les pages destinées à l'indexation, jamais une app privée |
+| `responsive-design` | Mobile first : règles CSS (breakpoints, grilles fluides, `clamp`, `dvh`), tactile, typographie, composants, matrice de test |
+| `seo` | SEO + GEO piloté par une stratégie (`docs/seo/`) : intentions, contenu, technique, structured data, Core Web Vitals, visibilité dans les moteurs IA. Jamais sur une app privée |
 
 **Production** :
 
@@ -69,7 +69,13 @@ Autres principes structurants :
 |---|---|
 | `legal-compliance` | RGPD, cookies, consommation, IA (France/UE) — jamais de certification juridique |
 
-## Les 14 Commands
+**Security active** — à part, jamais déclenché par défaut :
+
+| Skill | Rôle |
+|---|---|
+| `security-testing` | Test de sécurité **actif** et autorisé (recon, scan borné, revue manuelle) contre une cible explicitement désignée, uniquement via `/pentest-feature` |
+
+## Les 15 Commands
 
 | Commande | Rôle |
 |---|---|
@@ -87,6 +93,7 @@ Autres principes structurants :
 | `/audit-logs` | Audit de l'observabilité (logs, métriques, alertes) |
 | `/context-audit` | Audit lecture seule de l'efficacité de contexte du kit lui-même |
 | `/production-ready` | Vérifie/prépare la mise en production réelle (`--plan`) |
+| `/pentest-feature` | Test de sécurité actif et autorisé contre une cible désignée — rapport seul, ne corrige rien |
 
 ## Installation dans un projet
 

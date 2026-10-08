@@ -15,12 +15,13 @@ Appliquer le Skill `project-analysis` en premier pour déterminer ce que le proj
 réellement, puis sélectionner uniquement les Skills pertinents parmi (voir CLAUDE.md §9 pour la
 matrice de routing complète) :
 
-- `security` — toujours pertinent pour un audit projet
+- `security` — toujours pertinent pour un audit projet, y compris `references/verification-checklist.md`
+  (anti brute-force, vol de session, MITM, rate limiting, en-têtes) dès qu'il y a authentification ou API publique
 - `api-contract` — si le projet expose une API
 - `database` — si le projet a une base de données
 - `dependencies` — toujours pertinent (supply chain)
 - `ui-ux` / `accessibility` / `responsive-design` — si le projet a un frontend
-- `seo` — uniquement si des pages sont destinées à l'indexation (jamais sur un dashboard/back-office/espace authentifié)
+- `seo` — uniquement si des pages sont destinées à l'indexation (jamais sur un dashboard/back-office/espace authentifié) ; inclut stratégie (`docs/seo/README.md`), technique, contenu et GEO via `references/audit-checklist.md`
 - `performance` — si un souci de performance est signalé ou si le volume de données/trafic le
   justifie ; ne jamais spéculer sans indice réel (voir Skill `performance` → `references/measurement.md`)
 - `legal-compliance` — si le projet traite des données personnelles ou vise des consommateurs

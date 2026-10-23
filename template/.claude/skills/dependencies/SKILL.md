@@ -5,6 +5,8 @@ description: Analyser les implications d'ajouter, supprimer, remplacer ou mettre
 
 # Dependencies & Supply Chain
 
+> **Faits vivants** : si `references/faits-vivants.md` existe, le lire en premier ; ses faits datés (mis à jour chaque lundi par la veille) priment sur le reste de ce Skill en cas de contradiction.
+
 ## Avant d'ajouter une dépendance
 
 Vérifier : une solution existe-t-elle déjà dans le projet ou ses dépendances actuelles pour ce

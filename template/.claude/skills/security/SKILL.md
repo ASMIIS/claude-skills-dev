@@ -5,6 +5,8 @@ description: Vérifier systématiquement les implications de sécurité de toute
 
 # Security
 
+> **Faits vivants** : si `references/faits-vivants.md` existe, le lire en premier ; ses faits datés (mis à jour chaque lundi par la veille) priment sur le reste de ce Skill en cas de contradiction.
+
 ## Principe
 
 La sécurité est prioritaire sur la vitesse de livraison. Ne jamais introduire volontairement une

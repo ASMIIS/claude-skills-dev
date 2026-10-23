@@ -5,6 +5,8 @@ description: Vérifier l'accessibilité technique du frontend — WCAG, HTML sé
 
 # Accessibility
 
+> **Faits vivants** : si `references/faits-vivants.md` existe, le lire en premier ; ses faits datés (mis à jour chaque lundi par la veille) priment sur le reste de ce Skill en cas de contradiction.
+
 ## Périmètre — distinct de ui-ux et legal-compliance
 
 Trois Skills traitent de sujets proches sur le frontend mais avec des responsabilités différentes :

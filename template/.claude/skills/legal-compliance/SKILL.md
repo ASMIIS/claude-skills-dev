@@ -5,6 +5,8 @@ description: Analyser les implications légales et réglementaires (France / Uni
 
 # Legal & Compliance
 
+> **Faits vivants** : si `references/faits-vivants.md` existe, le lire en premier ; ses faits datés (mis à jour chaque lundi par la veille) priment sur le reste de ce Skill en cas de contradiction.
+
 ## Rôle et limite fondamentale
 
 Ce Skill ne fournit **jamais** de certification juridique. Il produit une analyse de conformité

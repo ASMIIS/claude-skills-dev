@@ -5,6 +5,8 @@ description: Concevoir, vérifier et optimiser le référencement (SEO classique
 
 # SEO + GEO
 
+> **Faits vivants** : si `references/faits-vivants.md` existe, le lire en premier ; ses faits datés (mis à jour chaque lundi par la veille) priment sur le reste de ce Skill en cas de contradiction.
+
 ## Périmètre — ne pas appliquer aveuglément
 
 S'applique aux pages publiques destinées à être trouvées (site vitrine, blog, pages produit,
